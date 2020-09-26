@@ -56,6 +56,21 @@ int utn_getEntero(char* pTexto, char* pTextoError, int reintentos, int maximo, i
 }
 
 /**
+ * \brief Solicita una cadena
+ * \param char* cadena, es la cadena a procesar, puede tener letras, caracteres especiales, numeros.
+ * \param int longitud, tamaño de la cadena
+ */
+int utn_getCadena (char* cadena, int longitud)
+{
+	__fpurge(stdin);
+	fgets(cadena,longitud,stdin);
+
+	cadena[strlen(cadena)-1]='\0';
+
+	return 0;
+}
+
+/**
  * \brief Recibe un char
  * \param char letra, letra a verificar
  * \return (-1) Error / (0) Tomo el entero ok
@@ -63,7 +78,7 @@ int utn_getEntero(char* pTexto, char* pTextoError, int reintentos, int maximo, i
 int utn_esLetra(char letra)
 {
 	int retorno=-1;
-	if(('a'<=letra && letra<='z')||('A'<=letra && letra<='Z') || letra=='\n')
+	if(('a'<=letra && letra<='z')||('A'<=letra && letra<='Z'))
 	{
 		retorno=0;
 	}
@@ -77,21 +92,17 @@ int utn_esLetra(char letra)
 int utn_validarCadena(char array[])
 {
 	int retorno=0;
+	int variable;
 	int i;
 	if(array!=NULL)
 	{
-		for (i=0;array[i]!='\0';i++)
+		for (i=0;i<strlen(array)-1;i++)
 		{
 			if(utn_esLetra(array[i])!=0)
 			{
 				retorno=-1;
 				break;
 			}
-		}
-		if(array[i]=='\0')
-		{
-			array[i-1]='\0';
-			retorno=0;
 		}
 	}
 	return retorno;
@@ -104,17 +115,15 @@ int utn_validarCadena(char array[])
  * \param reintentos, cantidad de oportunidades para ingresar el dato
  * \param int maximo, tamaño maximo permitido para la cadena
  * \param int minimo, tamaño minimo permitido para la cadena
- * \param int pResultado, puntero al espacio de memoria donde se dejara el valor obtenido
+ * \param int cadena, puntero al espacio de memoria donde se dejarà la cadena obtenida
  * \return (-1) Error / (0) Tomo el entero ok
  */
-int utn_getCadenaValida(char* pTexto, char* pTextoError, int reintentos, int sizeOperador, char* pOperador)
+int utn_getCadenaValida(char* pTexto, char* pTextoError, int reintentos, int sizeOperador, char* cadena)
 {
 	int retorno=-1;
 	char operadorBuffer[sizeOperador];
-
-		printf("Entro en la funcion\n");
 	if(
-		pOperador!=NULL &&
+		cadena!=NULL &&
 		pTexto!=NULL &&
 		pTextoError!=NULL &&
 		sizeOperador>1 &&
@@ -125,11 +134,10 @@ int utn_getCadenaValida(char* pTexto, char* pTextoError, int reintentos, int siz
 				printf("%s",pTexto);
 				fgets(operadorBuffer,sizeOperador,stdin);
 				__fpurge(stdin);
-				printf("Entro en el do\n");
-				if(utn_validarCadena(operadorBuffer)==1)
+				if(utn_validarCadena(operadorBuffer)==0)
 				{
 					retorno=0;
-					strncpy(pOperador,operadorBuffer,sizeOperador);
+					strncpy(cadena,operadorBuffer,sizeOperador);
 					break;
 				} else {
 					reintentos--;
