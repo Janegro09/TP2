@@ -14,18 +14,43 @@
 #include "utn.h"
 #include "tp2_utn.h"
 
-#define SIZE_CADENA 50
+#define SIZE_ARRAY 1000
+#define BARRA_SEPARADORA "*********************************************"
 
 int main(void) {
-	int resultado;
-	char cadena[SIZE_CADENA];
-	resultado=utn_getCadenaValida("Ingresa una cadena\n", "error cadena invalida\n", 3, SIZE_CADENA, cadena);
-	//resultado= utn_getCadena(cadena, SIZE_CADENA);
-	if(resultado==0)
-	{
-		printf("La cadena es:\n%s",cadena);
-	} else {
-		printf("No ingresaste una cadena valida");
-	}
+	Employee arrayEmpleados[SIZE_ARRAY];
+	Employee arrayEmpleadosAux;
+	int opcion;
+	int resultadoGetEntero;
+	int resultadoOperacion;
+	do {
+		resultadoGetEntero=utn_getEntero("Bienvenido, ingresá una opción\n1) Alta\n2) Modificacion\n3) Baja\n4) Informar\n5) Salir\n", "Error - opción invalida\n", 3, 5, 1, &opcion);
+		switch(opcion)
+		{
+			case 1:
+				printf(BARRA_SEPARADORA);
+				resultadoOperacion=alta(arrayEmpleados);
+				if(resultadoOperacion==0)
+				{
+					printf("Alta realizada Correctamente\n");
+				} else {
+					printf("No se pudo realizar el Alta\n");
+				}
+				break;
+			case 2:
+				printf(BARRA_SEPARADORA);
+				modificar();
+				break;
+			case 3:
+				printf(BARRA_SEPARADORA);
+				baja();
+				break;
+			case 4:
+				printf(BARRA_SEPARADORA);
+				informar();
+				break;
+		}
+	}while (opcion != 5 && resultadoGetEntero ==0);
+
 	return EXIT_SUCCESS;
 }
