@@ -1,80 +1,229 @@
-struct
-{
-	int id;
-	char name[51];
-	char lastName[51];
-	float salary;
-	int sector;
-	int isEmpty;
-} typedef Employee;
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdio_ext.h>
+#include <string.h>
 
-/** \brief	Para indicar que todas las posiciones del array estàn vacias,
- * 			esta funcion pone la bandera (isEmpty) en TRUE en todas las posiciones del array
- * 	\param 	list Employee* Pointer to array of employees
- * 	\param 	len int Array length
- * 	\return	int Return (-1) if Error [Invalid length or NULL pointer] - 0 if ok
+static int utn_calcularSuma(int operador1, int operador2, int* pResultado);
+static int utn_calcularResta(int operador1, int operador2, int* pResultado);
+static int utn_calcularMultiplicacion(int operador1,int operador2, int* pResultado);
+static int utn_calcularDivision(int operador1, int operador2, float* pResultado);
+static int utn_calcularFactorial(int operador, int* pResultado);
+static int utn_validarCadena(char array[]);
+static int utn_esLetra(char letra);
+
+/**
+ * \brief Solicita un entero al usuario y valida un rango max y min
+ * \param char* pTexto, es el mensaje a ser mostrado al usuario
+ * \param char* pTextoError, es el mensaje de error a ser mostrado al usuario
+ * \param reintentos, cantidad de oportunidades para ingresar el dato
+ * \param int pResultado, puntero al espacio de memoria donde se dejara el valor obtenido
+ * \param int maximo, valor maximo admitido
+ * \param int minimo, valor minimo admitido
+ * \return (1) Error / (0) Tomo el entero ok
  */
-int initEmployees(Employee* list, int len)
+
+int utn_getEntero(char* pTexto, char* pTextoError, int reintentos, int maximo, int minimo, int* pOperador)
 {
+
+	int retorno=-1;
+	int operadorBuffer;
+	int resultadoScan;
+
+	if(
+		pTexto!=NULL &&
+		pTextoError!=NULL &&
+		minimo<maximo &&
+		reintentos>=0
+		)
+		{
+			do {
+				printf("%s",pTexto);
+				resultadoScan=scanf("%d",&operadorBuffer);
+				__fpurge(stdin);
+				if((resultadoScan==1) && operadorBuffer<=maximo && minimo<=operadorBuffer)
+				{
+					retorno=0;
+					*pOperador=operadorBuffer;
+					break;
+				} else {
+					reintentos--;
+					printf("%s",pTextoError);
+				}
+
+			}while(0<=reintentos);
+		}
+	return retorno;
+}
+
+/**
+ * \brief Recibe un char
+ * \param char letra, letra a verificar
+ * \return (-1) Error / (0) Tomo el entero ok
+ */
+int utn_esLetra(char letra)
+{
+	int retorno=-1;
+	if(('a'<=letra && letra<='z')||('A'<=letra && letra<='Z') || letra=='\n')
+	{
+		retorno=0;
+	}
+	return retorno;
+}
+/**
+ * \brief Recibe una cadena de caracteres y confirma que no tenga numeros
+ * \param array de char, a verificar
+ * \return (-1) Error / (0) Tomo el entero ok
+ */
+int utn_validarCadena(char array[])
+{
+	int retorno=0;
+	int i;
+	if(array!=NULL)
+	{
+		for (i=0;array[i]!='\0';i++)
+		{
+			if(utn_esLetra(array[i])!=0)
+			{
+				retorno=-1;
+				break;
+			}
+		}
+		if(array[i]=='\0')
+		{
+			array[i-1]='\0';
+			retorno=0;
+		}
+	}
+	return retorno;
+}
+
+/**
+ * \brief Solicita una cadena de caracteres al usuario y valida
+ * \param char* pTexto, es el mensaje a ser mostrado al usuario
+ * \param char* pTextoError, es el mensaje de error a ser mostrado al usuario
+ * \param reintentos, cantidad de oportunidades para ingresar el dato
+ * \param int maximo, tamaño maximo permitido para la cadena
+ * \param int minimo, tamaño minimo permitido para la cadena
+ * \param int pResultado, puntero al espacio de memoria donde se dejara el valor obtenido
+ * \return (-1) Error / (0) Tomo el entero ok
+ */
+int utn_getCadenaValida(char* pTexto, char* pTextoError, int reintentos, int sizeOperador, char* pOperador)
+{
+	int retorno=-1;
+	char operadorBuffer[sizeOperador];
+
+		printf("Entro en la funcion\n");
+	if(
+		pOperador!=NULL &&
+		pTexto!=NULL &&
+		pTextoError!=NULL &&
+		sizeOperador>1 &&
+		reintentos>0
+		)
+		{
+			do {
+				printf("%s",pTexto);
+				fgets(operadorBuffer,sizeOperador,stdin);
+				__fpurge(stdin);
+				printf("Entro en el do\n");
+				if(utn_validarCadena(operadorBuffer)==1)
+				{
+					retorno=0;
+					strncpy(pOperador,operadorBuffer,sizeOperador);
+					break;
+				} else {
+					reintentos--;
+					printf("%s",pTextoError);
+				}
+
+			}while(0<=reintentos);
+		}
+	return retorno;
+}
+
+/**
+ * \brief Toma dos enteros, realiza la suma y lo imprime en pantalla
+ * \param int operador1, el primer numero
+ * \param int operador, el segundo numero
+ * \param int* pResultado, es el resultado de la suma
+ * \return 0 siempre, no hay condiciones para sumar 2 numeros
+ */
+int utn_calcularSuma(int operador1, int operador2, int* pResultado){
+	int suma;
+	suma = operador1+operador2;
+	*pResultado=suma;
 	return 0;
 }
 
-/**\brief	Agrega en un array de empleados existente los valores recibidos como
- * 			parametros en la primer posiciòn libre
- *\param 	list employee*
- *\param 	len int
- *\param 	id int
- *\param 	name[] char
- *\param 	lastName[] char
- *\param 	salary float
- *\param 	sector int
- *\return 	int Return (-1) si la longitud es invalida o si el puntero es Null sin espacios libres - 0 si està OK
+/**
+ * \brief Toma dos enteros, realiza la resta y lo imprime en pantalla
+ * \param int operador1, el primer numero
+ * \param int operador2, el segundo numero
+ * \param int* pResultado, es el resultado de la resta
+ * \return 0 siempre, no hay condiciones para restar 2 numeros
  */
-int addEmployee(Employee* list, int len, int id, char name[], char lastName[], float salary, int sector)
-{
-	return -1;
-}
-
-/** \brief	busca un empleado recibiendo como parametro de busqueda su id
- * \param	list Employee*
- * \param	len int
- * \param	id int
- * \return 	retorna la posiciòn del indice del empleado o (-1) si fue un puntero NULL
- * 			o si la longitud fue invalida o si el empleado nose encontrò
- */
-int findEmployeeById(Employee* list, int len, int id)
-{
-	return -1;
-}
-
-/** \brief	Elimina de manera logica (isEmpty Flag en 1) un empleado recibiendo como parametro su Id
- * \param	list Employee*
- * \param	len int
- * \param 	id int
- * \return 	int Return (-1) id Error
- */
-int removeEmployee(Employee* list, int len, int id)
-{
-	return -1;
-}
-
-/**	\brief 	Ordena el array de empleados por apellido y sector de manera ascendente o descendente
- * \param 	list Employee
- * \param	len int
- * \param order int [1] indicate UP - [0] indicate DOWN
- * \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if OK
- */
-int sortEmployees(Employee* list, int len, int order)
-{
+int utn_calcularResta(int operador1, int operador2, int* pResultado){
+	int resta;
+	resta = operador1-operador2;
+	*pResultado=resta;
 	return 0;
 }
 
-/** \brief print the content of employees array
- * \param list Employee*
- * \param length int
- * \return int
+/**
+ * \brief Toma dos enteros, realiza la Division y lo imprime en pantalla
+ * \param int operador1, el primer numero
+ * \param int operador2, el segundo numero
+ * \param int* pResultado, es el resultado de la division
+ * \return o si se puede hacer la divison -1 si no se pudo
  */
-int printEmployees(Employee* list, int lenght)
-{
+int utn_calcularDivision(int operador1, int operador2, float* pResultado){
+	float division;
+	int retorno=-1;
+	if(operador2 != 0)
+	{
+		division=(float)operador1/operador2;
+		retorno=0;
+	}
+	*pResultado=division;
+	return retorno;
+}
+
+/**
+ * \brief Toma dos enteros, realiza la multiplicacion y lo imprime en pantalla
+ * \param int operador1, el primer numero
+ * \param int operador2, el segundo numero
+ * \param int* pResultado, es el resultado de la multiplicacion
+ * \return 0 siempre, no hay condiciones para la multiplicacion
+ */
+int utn_calcularMultiplicacion(int operador1, int operador2, int* pResultado){
+	int multiplicacion;
+	multiplicacion=operador1*operador2;
+	*pResultado=multiplicacion;
+
 	return 0;
+}
+
+/**
+ * \brief Toma un entero, realiza el factorial de un numero
+ * \param int operador, el primer numero
+ * \param int* pResultado, donde se guarda el resultado del factorial
+ * \return 0 si realizò el factorial y -1 si no se pudo hacer
+ */
+int utn_calcularFactorial(int operador, int* pResultado){
+	int retorno=-1;
+	int factorial=1;
+
+	if(operador>=0)
+	{
+		for(int i=0;i<operador;i++)
+		{
+			factorial=factorial*(i+1);
+		}
+		retorno=0;
+	} else {
+		printf("No se puede realizar el factorial de un numero negativo\n");
+	}
+	*pResultado=factorial;
+
+	return retorno;
 }
