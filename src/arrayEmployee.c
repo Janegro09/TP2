@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <stdio_ext.h>
 #include <string.h>
-#include "employee.h"
+
+#include "arrayEmployee.h"
 
 /** \brief	Para indicar que todas las posiciones del array estàn vacias,
  * 			esta funcion pone la bandera (isEmpty) en TRUE en todas las posiciones del array

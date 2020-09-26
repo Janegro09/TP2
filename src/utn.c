@@ -24,7 +24,6 @@ static int utn_esLetra(char letra);
 
 int utn_getEntero(char* pTexto, char* pTextoError, int reintentos, int maximo, int minimo, int* pOperador)
 {
-
 	int retorno=-1;
 	int operadorBuffer;
 	int resultadoScan;

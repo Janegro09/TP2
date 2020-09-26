@@ -5,17 +5,20 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../src/TP2.c \
-../src/employee.c \
+../src/arrayEmployee.c \
+../src/tp2_utn.c \
 ../src/utn.c 
 
 OBJS += \
 ./src/TP2.o \
-./src/employee.o \
+./src/arrayEmployee.o \
+./src/tp2_utn.o \
 ./src/utn.o 
 
 C_DEPS += \
 ./src/TP2.d \
-./src/employee.d \
+./src/arrayEmployee.d \
+./src/tp2_utn.d \
 ./src/utn.d 
 
 

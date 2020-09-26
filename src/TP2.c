@@ -9,8 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio_ext.h>
+
+#include "arrayEmployee.h"
 #include "utn.h"
-#include "employee.h"
+#include "tp2_utn.h"
 
 #define SIZE_CADENA 50
 
