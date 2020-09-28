@@ -13,6 +13,10 @@
  */
 int initEmployees(Employee* list, int len)
 {
+	for (int i=0;i<len;i++)
+	{
+		list[i].isEmpty=1;
+	}
 	return 0;
 }
 
@@ -29,7 +33,25 @@ int initEmployees(Employee* list, int len)
  */
 int addEmployee(Employee* list, int len, int id, char name[], char lastName[], float salary, int sector)
 {
-	return -1;
+	int retorno=-1;
+	Employee aux;
+	aux.id=id;
+	aux.isEmpty=0;
+	strncpy(aux.name,name,50);
+	strncpy(aux.lastName,lastName,50);
+	aux.salary=salary;
+	aux.sector=sector;
+
+	for (int i=0;i<len;i++)
+	{
+		if(list[i].isEmpty!=0)
+		{
+			retorno=0;
+			list[i]=aux;
+			break;
+		}
+	}
+	return retorno;
 }
 
 /** \brief	busca un empleado recibiendo como parametro de busqueda su id
@@ -73,5 +95,18 @@ int sortEmployees(Employee* list, int len, int order)
  */
 int printEmployees(Employee* list, int lenght)
 {
+	printf("%-6s%-30s%-30s%-10s%-3s\n","id","nombre","apellido","salario","sector");
+	if(list[0].isEmpty==0)
+	{
+		for(int i=0;i<lenght;i++)
+		{
+			if(list[i].isEmpty==0)
+			{
+				printf("%-6d%-30s%-30s%-10.2f%-3d\n",list[i].id, list[i].name,list[i].lastName,list[i].salary,list[i].sector);
+			}
+		}
+	} else {
+		printf("No se han ingresado empleados\n");
+	}
 	return 0;
 }

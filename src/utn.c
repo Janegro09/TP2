@@ -138,6 +138,8 @@ int utn_validarCadena(char array[])
 				break;
 			}
 		}
+		//para eliminar el \n final que agrega fgets
+		array[i]='\0';
 	}
 	return retorno;
 }
@@ -171,7 +173,7 @@ int utn_getCadenaValida(char* pTexto, char* pTextoError, int reintentos, int siz
 				if(utn_validarCadena(operadorBuffer)==0)
 				{
 					retorno=0;
-					strncpy(cadena,operadorBuffer,sizeOperador);
+					strncpy(cadena,operadorBuffer,sizeOperador-1);
 					break;
 				} else {
 					reintentos--;
