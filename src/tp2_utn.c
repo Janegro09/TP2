@@ -70,8 +70,9 @@ int existeId(Employee array[], int id, int* posicion)
 	*indice=0;
 	return 0;
 }*/
-void modificar(Employee array[])
+int modificar(Employee array[])
 {
+	int retorno;
 	int posicion;
 	int opcion;
 	int idEmpleado;
@@ -79,7 +80,7 @@ void modificar(Employee array[])
 	Employee bufferEmpleado;
 
 	resultadoGet=utn_getEntero("Ingresá un Id valido\n", "Error id ingresado incorrrectamente\n", 3, ID_MAXIMO, ID_MINIMO, &idEmpleado);
-	if(resultadoGet==0 && existeId(array,idEmpleado,&posicion)!=0)
+	if(resultadoGet==0 && existeId(array,idEmpleado,&posicion)==0)
 	{
 		bufferEmpleado=array[posicion];
 		do
@@ -107,16 +108,18 @@ void modificar(Employee array[])
 
 				if(resultadoGet==0)
 				{
+					retorno=0;
 					array[posicion]=bufferEmpleado;
 				}else{
-					printf("Error con el dato ingresado\n");
+					printf("No se pudo realizar la modificacion\n");
+					resultadoGet=0;
 				}
 			}
 		}while (opcion!=5 && resultadoGet!=0);
 	} else {
 		printf("Empleado no encontrado con ese Id\n");
 	}
-
+	return retorno;
 }
 
 void baja()

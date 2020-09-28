@@ -37,7 +37,13 @@ int main(void) {
 				break;
 			case 2:
 				printf(BARRA_SEPARADORA);
-				modificar();
+				resultadoOperacion=modificar(arrayEmpleados);
+				if(resultadoOperacion==0)
+				{
+					printf("Modificación realizada correctamente\n");
+				} else {
+					printf("No se pudo realizar la modificación\n");
+				}
 				printf(BARRA_SEPARADORA);
 				break;
 			case 3:

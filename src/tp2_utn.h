@@ -1,5 +1,5 @@
 
 int alta(Employee array[], int size);
-void modificar();
+int modificar(Employee array[]);
 void baja();
 void informar(Employee array[]);
